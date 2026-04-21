@@ -1,0 +1,62 @@
+---
+import "../styles/global.css";
+import InfoBar from "../components/InfoBar.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import DemoModal from "../components/DemoModal.astro";
+
+interface Props {
+	title?: string;
+	description?: string;
+}
+
+const { title = "Shrinky-Dink Compression", description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="generator" content={Astro.generator} />
+		{description && <meta name="description" content={description} />}
+		<title>{title}</title>
+	</head>
+	<body>
+		<div class="shell">
+			<div class="top-stack">
+				<InfoBar />
+				<Header />
+			</div>
+
+			<main class="main">
+				<slot />
+			</main>
+
+			<Footer />
+
+			<DemoModal />
+		</div>
+	</body>
+</html>
+
+<style>
+	.shell {
+		min-height: 100dvh;
+		display: flex;
+		flex-direction: column;
+		background: var(--surface);
+	}
+
+	.top-stack {
+		position: sticky;
+		top: 0;
+		z-index: 20;
+	}
+
+	.main {
+		flex: 1;
+		width: 100%;
+	}
+</style>

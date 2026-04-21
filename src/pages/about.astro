@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import site from "../content/site.json";
+
+const { title, intro, sections, closing } = site.about;
+---
+
+<BaseLayout title={`${title}`} description={intro}>
+	<Section variant="hero">
+		<h1>{title}</h1>
+		<p class="ui-lede">{intro}</p>
+	</Section>
+
+	<Section>
+		<div class="ui-grid-3">
+			{
+				sections.map((s) => (
+					<div class="ui-card">
+						<h3 class="ui-card-title">{s.title}</h3>
+						<p class="ui-card-body">{s.body}</p>
+					</div>
+				))
+			}
+		</div>
+	</Section>
+
+	<Section>
+		<div class="ui-cta-block">
+			<h2>{closing}</h2>
+		</div>
+	</Section>
+</BaseLayout>

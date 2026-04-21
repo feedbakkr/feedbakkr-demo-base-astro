@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import site from "../content/site.json";
+
+const { title, body, cta } = site.error404;
+---
+
+<BaseLayout title={`${title} — ${site.product.name}`} description={body}>
+	<Section variant="hero">
+		<div style="text-align: center;">
+			<p style="color: var(--accent); letter-spacing: 0.09em; font-weight: 600;">404</p>
+			<h1>{title}</h1>
+			<p class="ui-lede" style="margin: 0 auto 1.25rem;">{body}</p>
+			<a href="/" class="ui-button ui-button-primary">{cta}</a>
+		</div>
+	</Section>
+</BaseLayout>

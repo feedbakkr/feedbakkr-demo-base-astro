@@ -1,0 +1,53 @@
+---
+export interface Props {
+	variant?: "default" | "tight" | "hero";
+	as?: "section" | "div" | "main" | "header" | "footer";
+	class?: string;
+}
+
+const { variant = "default", as: Tag = "section", class: className } = Astro.props;
+
+const classes = [
+	"section",
+	variant === "tight" ? "section-tight" : "",
+	variant === "hero" ? "hero" : "",
+	className ?? "",
+]
+	.filter(Boolean)
+	.join(" ");
+---
+
+<Tag class={classes}>
+	<slot />
+</Tag>
+
+<style>
+	.section {
+		max-width: var(--max-w);
+		margin: 0 auto;
+		padding: 2.5rem 1.25rem;
+	}
+
+	@media (min-width: 640px) {
+		.section {
+			padding: 3.5rem 1.5rem;
+		}
+	}
+
+	.section-tight {
+		padding-top: 1.5rem;
+		padding-bottom: 1.5rem;
+	}
+
+	.hero {
+		padding-top: 3rem;
+		padding-bottom: 2.5rem;
+	}
+
+	@media (min-width: 640px) {
+		.hero {
+			padding-top: 5rem;
+			padding-bottom: 3.5rem;
+		}
+	}
+</style>

@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import site from "../content/site.json";
+
+const { title, intro, items, cta } = site.featuresPage;
+---
+
+<BaseLayout title={`${title} — ${site.product.name}`} description={intro}>
+	<Section variant="hero">
+		<h1>{title}</h1>
+		<p class="ui-lede">{intro}</p>
+	</Section>
+
+	<Section>
+		<div class="ui-grid-3">
+			{
+				items.map((item) => (
+					<div class="ui-card">
+						<h3 class="ui-card-title">{item.title}</h3>
+						<p class="ui-card-body">{item.body}</p>
+					</div>
+				))
+			}
+		</div>
+	</Section>
+
+	<Section>
+		<div class="ui-cta-block">
+			<h2>{cta.title}</h2>
+			<div class="ui-cta-block-actions">
+				<a href="/docs" class="ui-button ui-button-primary">{cta.action}</a>
+			</div>
+		</div>
+	</Section>
+</BaseLayout>

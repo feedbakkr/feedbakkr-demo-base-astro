@@ -1,0 +1,72 @@
+---
+import site from "../content/site.json";
+---
+
+<footer class="footer">
+	<div class="footer-inner">
+		<div>
+			<p class="footer-note">{site.navigation.footerNote}</p>
+			<p class="footer-micro">{site.navigation.footerMicro}</p>
+		</div>
+		<div class="footer-links">
+			<a href="/docs">Docs</a>
+			<a href="/contact">Contact</a>
+			<a href="/about">About</a>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		border-top: 1px solid var(--border);
+		background: var(--surface-muted);
+		padding: 2rem 0;
+		margin-top: 3rem;
+	}
+
+	.footer-inner {
+		max-width: var(--max-w);
+		margin: 0 auto;
+		padding: 0 1.25rem;
+		display: grid;
+		gap: 1.25rem;
+	}
+
+	@media (min-width: 640px) {
+		.footer-inner {
+			grid-template-columns: 2fr 1fr;
+			align-items: start;
+		}
+	}
+
+	.footer-note {
+		color: var(--text-muted);
+		font-size: 0.875rem;
+		margin: 0 0 0.25rem;
+	}
+
+	.footer-micro {
+		color: var(--text-subtle);
+		font-size: 0.8rem;
+		margin: 0;
+		font-style: italic;
+	}
+
+	.footer-links {
+		display: flex;
+		gap: 1.25rem;
+		flex-wrap: wrap;
+		justify-self: start;
+	}
+
+	@media (min-width: 640px) {
+		.footer-links {
+			justify-self: end;
+		}
+	}
+
+	.footer-links a {
+		font-size: 0.875rem;
+		color: var(--text-muted);
+	}
+</style>

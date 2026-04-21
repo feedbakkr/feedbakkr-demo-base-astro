@@ -1,0 +1,124 @@
+---
+const FEEDBAKKR_SITE_URL = "https://feedbakkr.com";
+---
+
+<div class="info-bar" role="region" aria-label="Demo information">
+	<div class="info-bar-inner">
+		<span class="info-bar-label">
+			<span class="info-bar-dot" aria-hidden="true"></span>
+			Feedbakkr demo app
+		</span>
+		<div class="info-bar-actions">
+			<a
+				class="info-bar-link"
+				href={FEEDBAKKR_SITE_URL}
+				target="_blank"
+				rel="noreferrer noopener"
+			>
+				Visit feedbakkr.com
+			</a>
+			<span class="info-bar-divider" aria-hidden="true">·</span>
+			<button type="button" class="info-bar-button" id="about-this-demo-button">
+				About this demo
+			</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	// The info bar's "About this demo" button dispatches a custom event that
+	// the DemoModal listens for. This decouples the info bar from the modal
+	// implementation while keeping everything vanilla.
+	const button = document.getElementById("about-this-demo-button");
+	button?.addEventListener("click", () => {
+		window.dispatchEvent(new CustomEvent("feedbakkr:open-demo-modal"));
+	});
+</script>
+
+<style>
+	.info-bar {
+		background: #0d9488;
+		border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+		font-size: 0.78rem;
+		color: #f0fdfa;
+	}
+
+	.info-bar-inner {
+		max-width: var(--max-w);
+		margin: 0 auto;
+		padding: 0.4rem 1.25rem;
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		flex-wrap: nowrap;
+		white-space: nowrap;
+	}
+
+	@media (max-width: 640px) {
+		.info-bar-link,
+		.info-bar-divider {
+			display: none;
+		}
+	}
+
+	.info-bar-label {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		font-weight: 500;
+		color: #ffffff;
+	}
+
+	.info-bar-dot {
+		width: 7px;
+		height: 7px;
+		border-radius: 999px;
+		background: #ffffff;
+		box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+	}
+
+	.info-bar-actions {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin-left: auto;
+	}
+
+	.info-bar-link {
+		color: #f0fdfa;
+		font-size: 0.78rem;
+	}
+
+	.info-bar-link:hover {
+		color: #ffffff;
+		text-decoration: underline;
+	}
+
+	.info-bar-divider {
+		color: rgba(255, 255, 255, 0.4);
+	}
+
+	.info-bar-button {
+		background: transparent;
+		border: 0;
+		padding: 0;
+		color: #ffffff;
+		font-size: 0.78rem;
+		font-weight: 500;
+		font-family: inherit;
+		cursor: pointer;
+		text-decoration: underline;
+	}
+
+	.info-bar-button:hover {
+		color: #ffffff;
+		text-decoration: none;
+	}
+
+	@media (max-width: 480px) {
+		.info-bar-actions {
+			margin-left: 0;
+			width: 100%;
+		}
+	}
+</style>

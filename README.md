@@ -1,43 +1,60 @@
-# Astro Starter Kit: Minimal
+# feedbakkr-demo-base-astro
 
-```sh
-pnpm create astro@latest -- --template minimal
+A small Astro + TypeScript demo app for the **Compression Labs** product. This is a _base_ repo for the Feedbakkr integration walkthroughs — it does **not** yet integrate Feedbakkr. Future branches in the demo series will layer the integration on top of this starter.
+
+## What's here
+
+- A multi-page marketing + docs site with a single, shared design language.
+- File-based routes under `src/pages/`:
+  - `/` — Home (hero, features, how it works, mock stats, closing CTA)
+  - `/features` — Feature overview
+  - `/docs` — Documentation index
+  - `/docs/getting-started`
+  - `/docs/sdk-setup`
+  - `/docs/troubleshooting`
+  - `/contact` — Contact form (UI only; no submission)
+  - `/about`
+  - `404.astro` — 404 page
+- A first-run "demo project" modal that stores its acknowledgement under the local-storage key `feedbakkr-demo-ack` (consistent across all `feedbakkr-demo-base-*` repos). The info bar's "About this demo" button re-opens it by dispatching a `feedbakkr:open-demo-modal` custom event on `window`.
+- Scoped styles via Astro `<style>` blocks per component, with a single shared token file at `src/styles/global.css` covering the palette (slate + teal), typography, and spacing.
+- All page copy lives in `src/content/site.json` so future branches can evolve text without hunting through components.
+
+## Getting started
+
+```bash
+pnpm install
+pnpm dev        # http://localhost:4321
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Build
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```bash
+pnpm build      # astro check + production build into dist/
+pnpm preview    # serve the built dist/
+pnpm check      # type-check only
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Part of the Feedbakkr demo family
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+This repo is one of seven base demos, each reimplementing the same small site in a different framework:
 
-Any static assets, like images, can be placed in the `public/` directory.
+- `feedbakkr-demo-base-vite-react`
+- `feedbakkr-demo-base-react-router-7`
+- `feedbakkr-demo-base-next`
+- `feedbakkr-demo-base-vue-vite`
+- `feedbakkr-demo-base-nuxt`
+- `feedbakkr-demo-base-astro` _(this repo)_
+- `feedbakkr-demo-base-sveltekit`
 
-## 🧞 Commands
+All seven share the same content, navigation, pages, palette, and modal so the Feedbakkr integration guides can demonstrate the same steps against every framework consistently.
 
-All commands are run from the root of the project, from a terminal:
+## Intentionally simple
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+This project avoids:
 
-## 👀 Want to learn more?
+- authentication, backend APIs, databases
+- analytics, CMS integration, feature flags
+- heavy form frameworks, global state managers
+- production deployment configuration
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+It is optimised for readability and extensibility, not for production use.

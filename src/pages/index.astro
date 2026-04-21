@@ -1,17 +1,154 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Section from "../components/Section.astro";
+import site from "../content/site.json";
 
+const { hero, whatItDoes, features, howItWorks, stats, cta } = site.home;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout
+	title={`${site.product.name} — ${site.product.tagline}`}
+	description={site.product.positioning}
+>
+	<Section variant="hero" class="home-hero">
+		<span class="eyebrow">{site.product.phrases[0]}</span>
+		<h1 class="hero-title">{hero.title}</h1>
+		<p class="hero-subtitle">{hero.subtitle}</p>
+		<p class="hero-body">{hero.body}</p>
+		<div class="hero-actions">
+			<a href="/docs" class="ui-button ui-button-primary">{hero.primaryCTA}</a>
+			<a href="/contact" class="ui-button ui-button-secondary">{hero.secondaryCTA}</a>
+		</div>
+	</Section>
+
+	<Section>
+		<div class="ui-section-header">
+			<h2>{whatItDoes.title}</h2>
+			<p class="ui-lede">{whatItDoes.body}</p>
+		</div>
+
+		<div class="ui-grid-2">
+			{
+				features.map((f) => (
+					<div class="ui-card">
+						<h3 class="ui-card-title">{f.title}</h3>
+						<p class="ui-card-body">{f.body}</p>
+					</div>
+				))
+			}
+		</div>
+	</Section>
+
+	<Section>
+		<div class="ui-section-header">
+			<h2>How it works</h2>
+			<p class="ui-lede">
+				A small, predictable loop — capture, structure, and route signals to where your team
+				already works.
+			</p>
+		</div>
+		<ol class="how-it-works">
+			{howItWorks.map((step) => <li>{step}</li>)}
+		</ol>
+	</Section>
+
+	<Section>
+		<div class="ui-section-header">
+			<h2>Signals at a glance</h2>
+			<p class="ui-lede">Mock numbers used for illustrative demo purposes.</p>
+		</div>
+		<div class="ui-stat-grid">
+			{stats.map((s) => <div class="ui-stat-item">{s}</div>)}
+		</div>
+	</Section>
+
+	<Section>
+		<div class="ui-cta-block">
+			<h2>{cta.title}</h2>
+			<p class="ui-lede" style="margin: 0 auto;">{cta.body}</p>
+			<div class="ui-cta-block-actions">
+				<a href="/docs" class="ui-button ui-button-primary">{cta.action}</a>
+			</div>
+		</div>
+	</Section>
+</BaseLayout>
+
+<style>
+	.home-hero {
+		text-align: center;
+	}
+
+	.eyebrow {
+		display: inline-block;
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.09em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin-bottom: 0.75rem;
+	}
+
+	.hero-title {
+		font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
+		line-height: 1.1;
+		letter-spacing: -0.02em;
+		margin: 0 0 0.75rem;
+	}
+
+	.hero-subtitle {
+		color: var(--text-muted);
+		font-size: 1.15rem;
+		max-width: 62ch;
+		margin: 0 auto 1.5rem;
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: 0.75rem;
+		justify-content: center;
+		flex-wrap: wrap;
+		margin-top: 1rem;
+	}
+
+	.hero-body {
+		color: var(--text-muted);
+		max-width: 58ch;
+		margin: 0 auto 1.5rem;
+	}
+
+	.how-it-works {
+		display: grid;
+		gap: 0.75rem;
+		counter-reset: step;
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.how-it-works li {
+		background: var(--surface-raised);
+		border: 1px solid var(--border);
+		border-radius: var(--radius-sm);
+		padding: 0.9rem 1rem 0.9rem 3rem;
+		position: relative;
+		counter-increment: step;
+	}
+
+	.how-it-works li::before {
+		content: counter(step);
+		position: absolute;
+		left: 0.9rem;
+		top: 50%;
+		transform: translateY(-50%);
+		width: 1.6rem;
+		height: 1.6rem;
+		border-radius: 50%;
+		background: var(--accent-soft);
+		color: var(--accent);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 600;
+		font-size: 0.85rem;
+	}
+</style>

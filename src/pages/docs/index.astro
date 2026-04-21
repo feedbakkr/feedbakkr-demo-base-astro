@@ -1,0 +1,50 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../components/Section.astro";
+import site from "../../content/site.json";
+
+const { index } = site.docs;
+
+const DOC_PATHS: { title: string; path: string }[] = [
+	{ title: "Getting Started", path: "/docs/getting-started" },
+	{ title: "SDK Setup", path: "/docs/sdk-setup" },
+	{ title: "Troubleshooting", path: "/docs/troubleshooting" },
+];
+---
+
+<BaseLayout title={`${index.title} — ${site.product.name}`} description={index.intro}>
+	<Section variant="hero">
+		<h1>{index.title}</h1>
+		<p class="ui-lede">{index.intro}</p>
+
+		<div class="doc-card-row" style="margin-top: 1.75rem;">
+			{
+				index.pages.map((p) => {
+					const target = DOC_PATHS.find((d) => d.title === p.title)?.path ?? "/docs";
+					return (
+						<a href={target} class="ui-card ui-card-link">
+							<h3 class="ui-card-title">{p.title}</h3>
+							<p class="ui-card-body">{p.description}</p>
+						</a>
+					);
+				})
+			}
+		</div>
+
+		<div class="ui-callout" style="margin-top: 1.5rem;">{index.note}</div>
+	</Section>
+</BaseLayout>
+
+<style>
+	.doc-card-row {
+		display: grid;
+		gap: 0.85rem;
+		grid-template-columns: 1fr;
+	}
+
+	@media (min-width: 720px) {
+		.doc-card-row {
+			grid-template-columns: 1fr 1fr 1fr;
+		}
+	}
+</style>

@@ -1,0 +1,179 @@
+---
+/**
+ * Demo-project modal. First render auto-opens unless the user has already
+ * acknowledged via localStorage. The info bar's "About this demo" button
+ * can re-open it by dispatching a `feedbakkr:open-demo-modal` custom event
+ * on `window`. Writing the ack persists dismissal across visits.
+ *
+ * Shared local-storage key across every feedbakkr-demo-base-* repo:
+ *   feedbakkr-demo-ack
+ */
+---
+
+<div id="demo-modal-backdrop" class="backdrop" hidden>
+	<div
+		id="demo-modal-dialog"
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="demo-modal-title"
+		aria-describedby="demo-modal-body"
+		class="dialog"
+	>
+		<span class="eyebrow">Demo project</span>
+		<h2 id="demo-modal-title" class="title">About this demo</h2>
+		<p id="demo-modal-body" class="body">
+			This is a demo application created to support the Feedbakkr integration guides. It's
+			intentionally small and simple so the walkthrough steps stay easy to follow.
+		</p>
+		<p class="body">
+			It is <strong>not</strong> a production-ready solution — there's no backend, no
+			authentication, and no real data. Treat the structure as a starting point to explore
+			alongside the Feedbakkr documentation.
+		</p>
+		<div class="actions">
+			<button id="demo-modal-dismiss" type="button" class="button">Got it</button>
+		</div>
+	</div>
+</div>
+
+<script>
+	const ACK_KEY = "feedbakkr-demo-ack";
+	const backdrop = document.getElementById("demo-modal-backdrop");
+	const dismissBtn = document.getElementById("demo-modal-dismiss") as HTMLButtonElement | null;
+
+	function isOpen(): boolean {
+		return !!backdrop && !backdrop.hasAttribute("hidden");
+	}
+
+	function open(): void {
+		if (!backdrop) return;
+		backdrop.removeAttribute("hidden");
+		// Move focus to the primary action for keyboard users.
+		dismissBtn?.focus();
+	}
+
+	function close(): void {
+		if (!backdrop) return;
+		backdrop.setAttribute("hidden", "");
+	}
+
+	function dismiss(): void {
+		try {
+			localStorage.setItem(ACK_KEY, "1");
+		} catch {
+			// ignore — best effort
+		}
+		close();
+	}
+
+	// Auto-open on first visit if the user has not yet acknowledged.
+	function initialise(): void {
+		let acknowledged = false;
+		try {
+			acknowledged = localStorage.getItem(ACK_KEY) === "1";
+		} catch {
+			// localStorage unavailable — default to showing the modal.
+			acknowledged = false;
+		}
+		if (!acknowledged) {
+			open();
+		}
+	}
+
+	dismissBtn?.addEventListener("click", dismiss);
+
+	// Click outside dialog closes and persists the ack.
+	backdrop?.addEventListener("click", (e) => {
+		if (e.target === backdrop) dismiss();
+	});
+
+	// Escape-to-close while the modal is open.
+	document.addEventListener("keydown", (e) => {
+		if (e.key === "Escape" && isOpen()) dismiss();
+	});
+
+	// Re-open from the info bar's "About this demo" button.
+	window.addEventListener("feedbakkr:open-demo-modal", () => {
+		open();
+	});
+
+	if (document.readyState === "loading") {
+		document.addEventListener("DOMContentLoaded", initialise);
+	} else {
+		initialise();
+	}
+</script>
+
+<style>
+	.backdrop {
+		position: fixed;
+		inset: 0;
+		background: rgba(15, 23, 42, 0.55);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		z-index: 40;
+	}
+
+	.backdrop[hidden] {
+		display: none;
+	}
+
+	.dialog {
+		background: var(--surface-raised);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		width: 100%;
+		max-width: 440px;
+		padding: 1.5rem 1.5rem 1.25rem;
+		box-shadow: var(--shadow-md);
+		color: var(--text);
+	}
+
+	.eyebrow {
+		display: inline-block;
+		font-size: 0.72rem;
+		font-weight: 600;
+		letter-spacing: 0.09em;
+		text-transform: uppercase;
+		color: var(--accent);
+		margin-bottom: 0.5rem;
+	}
+
+	.title {
+		font-size: 1.15rem;
+		font-weight: 600;
+		margin: 0 0 0.6rem;
+	}
+
+	.body {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		margin: 0 0 0.9rem;
+	}
+
+	.actions {
+		display: flex;
+		justify-content: flex-end;
+		margin-top: 1rem;
+	}
+
+	.button {
+		background: var(--accent);
+		color: var(--accent-contrast);
+		border: 1px solid var(--accent);
+		border-radius: var(--radius-sm);
+		padding: 0.55rem 1rem;
+		font-size: 0.925rem;
+		font-weight: 500;
+		font-family: inherit;
+		cursor: pointer;
+		transition: background-color 120ms;
+	}
+
+	.button:hover {
+		background: var(--accent-hover);
+		border-color: var(--accent-hover);
+	}
+</style>
